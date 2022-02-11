@@ -1,0 +1,573 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU gettext utilities</title>
+
+<meta name="description" content="GNU gettext utilities">
+<meta name="keywords" content="GNU gettext utilities">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="#Top" rel="start" title="Top">
+<link href="#Program-Index" rel="index" title="Program Index">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="/manual" rel="up" title="(dir)">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="/software/gnulib/manual.css">
+
+
+</head>
+
+<body lang="en">
+<h1 class="settitle" align="center">GNU <code>gettext</code> utilities</h1>
+
+
+
+
+
+<a name="SEC_Contents"></a>
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+
+<ul class="no-bullet">
+  <li><a name="toc-Introduction-1" href="#Introduction">1 Introduction</a>
+  <ul class="no-bullet">
+    <li><a name="toc-The-Purpose-of-GNU-gettext" href="#Why">1.1 The Purpose of GNU <code>gettext</code></a></li>
+    <li><a name="toc-I18n_002c-L10n_002c-and-Such" href="#Concepts">1.2 I18n, L10n, and Such</a></li>
+    <li><a name="toc-Aspects-in-Native-Language-Support" href="#Aspects">1.3 Aspects in Native Language Support</a></li>
+    <li><a name="toc-Files-Conveying-Translations" href="#Files">1.4 Files Conveying Translations</a></li>
+    <li><a name="toc-Overview-of-GNU-gettext" href="#Overview">1.5 Overview of GNU <code>gettext</code></a></li>
+  </ul></li>
+  <li><a name="toc-The-User_0027s-View" href="#Users">2 The User&rsquo;s View</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Operating-System-Installation" href="#System-Installation">2.1 Operating System Installation</a></li>
+    <li><a name="toc-Setting-the-Locale-Used-by-GUI-Programs" href="#Setting-the-GUI-Locale">2.2 Setting the Locale Used by GUI Programs</a></li>
+    <li><a name="toc-Setting-the-Locale-through-Environment-Variables" href="#Setting-the-POSIX-Locale">2.3 Setting the Locale through Environment Variables</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Locale-Names-1" href="#Locale-Names">2.3.1 Locale Names</a></li>
+      <li><a name="toc-Locale-Environment-Variables-1" href="#Locale-Environment-Variables">2.3.2 Locale Environment Variables</a></li>
+      <li><a name="toc-Specifying-a-Priority-List-of-Languages" href="#The-LANGUAGE-variable">2.3.3 Specifying a Priority List of Languages</a></li>
+    </ul></li>
+    <li><a name="toc-Obtaining-good-output-in-a-Windows-console" href="#Working-in-a-Windows-console">2.4 Obtaining good output in a Windows console</a></li>
+    <li><a name="toc-Installing-Translations-for-Particular-Programs" href="#Installing-Localizations">2.5 Installing Translations for Particular Programs</a></li>
+  </ul></li>
+  <li><a name="toc-The-Format-of-PO-Files" href="#PO-Files">3 The Format of PO Files</a></li>
+  <li><a name="toc-Preparing-Program-Sources" href="#Sources">4 Preparing Program Sources</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Importing-the-gettext-declaration" href="#Importing">4.1 Importing the <code>gettext</code> declaration</a></li>
+    <li><a name="toc-Triggering-gettext-Operations" href="#Triggering">4.2 Triggering <code>gettext</code> Operations</a></li>
+    <li><a name="toc-Preparing-Translatable-Strings" href="#Preparing-Strings">4.3 Preparing Translatable Strings</a></li>
+    <li><a name="toc-How-Marks-Appear-in-Sources" href="#Mark-Keywords">4.4 How Marks Appear in Sources</a></li>
+    <li><a name="toc-Marking-Translatable-Strings" href="#Marking">4.5 Marking Translatable Strings</a></li>
+    <li><a name="toc-Special-Comments-preceding-Keywords" href="#c_002dformat-Flag">4.6 Special Comments preceding Keywords</a></li>
+    <li><a name="toc-Special-Cases-of-Translatable-Strings" href="#Special-cases">4.7 Special Cases of Translatable Strings</a></li>
+    <li><a name="toc-Letting-Users-Report-Translation-Bugs" href="#Bug-Report-Address">4.8 Letting Users Report Translation Bugs</a></li>
+    <li><a name="toc-Marking-Proper-Names-for-Translation" href="#Names">4.9 Marking Proper Names for Translation</a></li>
+    <li><a name="toc-Preparing-Library-Sources" href="#Libraries">4.10 Preparing Library Sources</a></li>
+  </ul></li>
+  <li><a name="toc-Making-the-PO-Template-File" href="#Template">5 Making the PO Template File</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Invoking-the-xgettext-Program" href="#xgettext-Invocation">5.1 Invoking the <code>xgettext</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location" href="#Input-file-location">5.1.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location" href="#Output-file-location">5.1.2 Output file location</a></li>
+      <li><a name="toc-Choice-of-input-file-language" href="#Choice-of-input-file-language">5.1.3 Choice of input file language</a></li>
+      <li><a name="toc-Input-file-interpretation" href="#Input-file-interpretation">5.1.4 Input file interpretation</a></li>
+      <li><a name="toc-Operation-mode" href="#Operation-mode">5.1.5 Operation mode</a></li>
+      <li><a name="toc-Language-specific-options" href="#Language-specific-options">5.1.6 Language specific options</a></li>
+      <li><a name="toc-Output-details" href="#Output-details">5.1.7 Output details</a></li>
+      <li><a name="toc-Informative-output" href="#Informative-output">5.1.8 Informative output</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Creating-a-New-PO-File" href="#Creating">6 Creating a New PO File</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Invoking-the-msginit-Program" href="#msginit-Invocation">6.1 Invoking the <code>msginit</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-1" href="#Input-file-location-1">6.1.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-1" href="#Output-file-location-1">6.1.2 Output file location</a></li>
+      <li><a name="toc-Input-file-syntax" href="#Input-file-syntax">6.1.3 Input file syntax</a></li>
+      <li><a name="toc-Output-details-1" href="#Output-details-1">6.1.4 Output details</a></li>
+      <li><a name="toc-Informative-output-1" href="#Informative-output-1">6.1.5 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Filling-in-the-Header-Entry" href="#Header-Entry">6.2 Filling in the Header Entry</a></li>
+  </ul></li>
+  <li><a name="toc-Updating-Existing-PO-Files" href="#Updating">7 Updating Existing PO Files</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Invoking-the-msgmerge-Program" href="#msgmerge-Invocation">7.1 Invoking the <code>msgmerge</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-2" href="#Input-file-location-2">7.1.1 Input file location</a></li>
+      <li><a name="toc-Operation-mode-1" href="#Operation-mode-1">7.1.2 Operation mode</a></li>
+      <li><a name="toc-Output-file-location-2" href="#Output-file-location-2">7.1.3 Output file location</a></li>
+      <li><a name="toc-Output-file-location-in-update-mode" href="#Output-file-location-in-update-mode">7.1.4 Output file location in update mode</a></li>
+      <li><a name="toc-Operation-modifiers" href="#Operation-modifiers">7.1.5 Operation modifiers</a></li>
+      <li><a name="toc-Input-file-syntax-1" href="#Input-file-syntax-1">7.1.6 Input file syntax</a></li>
+      <li><a name="toc-Output-details-2" href="#Output-details-2">7.1.7 Output details</a></li>
+      <li><a name="toc-Informative-output-2" href="#Informative-output-2">7.1.8 Informative output</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Editing-PO-Files" href="#Editing">8 Editing PO Files</a>
+  <ul class="no-bullet">
+    <li><a name="toc-KDE_0027s-PO-File-Editor" href="#KBabel">8.1 KDE&rsquo;s PO File Editor</a></li>
+    <li><a name="toc-GNOME_0027s-PO-File-Editor" href="#Gtranslator">8.2 GNOME&rsquo;s PO File Editor</a></li>
+    <li><a name="toc-Emacs_0027s-PO-File-Editor" href="#PO-Mode">8.3 Emacs&rsquo;s PO File Editor</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Completing-GNU-gettext-Installation" href="#Installation">8.3.1 Completing GNU <code>gettext</code> Installation</a></li>
+      <li><a name="toc-Main-PO-mode-Commands" href="#Main-PO-Commands">8.3.2 Main PO mode Commands</a></li>
+      <li><a name="toc-Entry-Positioning-1" href="#Entry-Positioning">8.3.3 Entry Positioning</a></li>
+      <li><a name="toc-Normalizing-Strings-in-Entries" href="#Normalizing">8.3.4 Normalizing Strings in Entries</a></li>
+      <li><a name="toc-Translated-Entries-1" href="#Translated-Entries">8.3.5 Translated Entries</a></li>
+      <li><a name="toc-Fuzzy-Entries-1" href="#Fuzzy-Entries">8.3.6 Fuzzy Entries</a></li>
+      <li><a name="toc-Untranslated-Entries-1" href="#Untranslated-Entries">8.3.7 Untranslated Entries</a></li>
+      <li><a name="toc-Obsolete-Entries-1" href="#Obsolete-Entries">8.3.8 Obsolete Entries</a></li>
+      <li><a name="toc-Modifying-Translations-1" href="#Modifying-Translations">8.3.9 Modifying Translations</a></li>
+      <li><a name="toc-Modifying-Comments-1" href="#Modifying-Comments">8.3.10 Modifying Comments</a></li>
+      <li><a name="toc-Details-of-Sub-Edition" href="#Subedit">8.3.11 Details of Sub Edition</a></li>
+      <li><a name="toc-C-Sources-Context-1" href="#C-Sources-Context">8.3.12 C Sources Context</a></li>
+      <li><a name="toc-Consulting-Auxiliary-PO-Files" href="#Auxiliary">8.3.13 Consulting Auxiliary PO Files</a></li>
+    </ul></li>
+    <li><a name="toc-Using-Translation-Compendia" href="#Compendium">8.4 Using Translation Compendia</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Creating-Compendia-1" href="#Creating-Compendia">8.4.1 Creating Compendia</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Concatenate-PO-Files" href="#Concatenate-PO-Files">8.4.1.1 Concatenate PO Files</a></li>
+        <li><a name="toc-Extract-a-Message-Subset-from-a-PO-File" href="#Extract-a-Message-Subset-from-a-PO-File">8.4.1.2 Extract a Message Subset from a PO File</a></li>
+      </ul></li>
+      <li><a name="toc-Using-Compendia-1" href="#Using-Compendia">8.4.2 Using Compendia</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Initialize-a-New-Translation-File" href="#Initialize-a-New-Translation-File">8.4.2.1 Initialize a New Translation File</a></li>
+        <li><a name="toc-Update-an-Existing-Translation-File" href="#Update-an-Existing-Translation-File">8.4.2.2 Update an Existing Translation File</a></li>
+      </ul></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Manipulating-PO-Files" href="#Manipulating">9 Manipulating PO Files</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Invoking-the-msgcat-Program" href="#msgcat-Invocation">9.1 Invoking the <code>msgcat</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-3" href="#Input-file-location-3">9.1.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-3" href="#Output-file-location-3">9.1.2 Output file location</a></li>
+      <li><a name="toc-Message-selection" href="#Message-selection">9.1.3 Message selection</a></li>
+      <li><a name="toc-Input-file-syntax-2" href="#Input-file-syntax-2">9.1.4 Input file syntax</a></li>
+      <li><a name="toc-Output-details-3" href="#Output-details-3">9.1.5 Output details</a></li>
+      <li><a name="toc-Informative-output-3" href="#Informative-output-3">9.1.6 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgconv-Program" href="#msgconv-Invocation">9.2 Invoking the <code>msgconv</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-4" href="#Input-file-location-4">9.2.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-4" href="#Output-file-location-4">9.2.2 Output file location</a></li>
+      <li><a name="toc-Conversion-target" href="#Conversion-target">9.2.3 Conversion target</a></li>
+      <li><a name="toc-Input-file-syntax-3" href="#Input-file-syntax-3">9.2.4 Input file syntax</a></li>
+      <li><a name="toc-Output-details-4" href="#Output-details-4">9.2.5 Output details</a></li>
+      <li><a name="toc-Informative-output-4" href="#Informative-output-4">9.2.6 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msggrep-Program" href="#msggrep-Invocation">9.3 Invoking the <code>msggrep</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-5" href="#Input-file-location-5">9.3.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-5" href="#Output-file-location-5">9.3.2 Output file location</a></li>
+      <li><a name="toc-Message-selection-1" href="#Message-selection-1">9.3.3 Message selection</a></li>
+      <li><a name="toc-Input-file-syntax-4" href="#Input-file-syntax-4">9.3.4 Input file syntax</a></li>
+      <li><a name="toc-Output-details-5" href="#Output-details-5">9.3.5 Output details</a></li>
+      <li><a name="toc-Informative-output-5" href="#Informative-output-5">9.3.6 Informative output</a></li>
+      <li><a name="toc-Examples" href="#Examples">9.3.7 Examples</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgfilter-Program" href="#msgfilter-Invocation">9.4 Invoking the <code>msgfilter</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-6" href="#Input-file-location-6">9.4.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-6" href="#Output-file-location-6">9.4.2 Output file location</a></li>
+      <li><a name="toc-The-filter" href="#The-filter">9.4.3 The filter</a></li>
+      <li><a name="toc-Useful-filter_002doptions-when-the-filter-is-sed" href="#Useful-filter_002doptions-when-the-filter-is-sed">9.4.4 Useful <var>filter-option</var>s when the <var>filter</var> is &lsquo;<samp>sed</samp>&rsquo;</a></li>
+      <li><a name="toc-Built_002din-filters" href="#Built_002din-filters">9.4.5 Built-in <var>filter</var>s</a></li>
+      <li><a name="toc-Input-file-syntax-5" href="#Input-file-syntax-5">9.4.6 Input file syntax</a></li>
+      <li><a name="toc-Output-details-6" href="#Output-details-6">9.4.7 Output details</a></li>
+      <li><a name="toc-Informative-output-6" href="#Informative-output-6">9.4.8 Informative output</a></li>
+      <li><a name="toc-Examples-1" href="#Examples-1">9.4.9 Examples</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msguniq-Program" href="#msguniq-Invocation">9.5 Invoking the <code>msguniq</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-7" href="#Input-file-location-7">9.5.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-7" href="#Output-file-location-7">9.5.2 Output file location</a></li>
+      <li><a name="toc-Message-selection-2" href="#Message-selection-2">9.5.3 Message selection</a></li>
+      <li><a name="toc-Input-file-syntax-6" href="#Input-file-syntax-6">9.5.4 Input file syntax</a></li>
+      <li><a name="toc-Output-details-7" href="#Output-details-7">9.5.5 Output details</a></li>
+      <li><a name="toc-Informative-output-7" href="#Informative-output-7">9.5.6 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgcomm-Program" href="#msgcomm-Invocation">9.6 Invoking the <code>msgcomm</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-8" href="#Input-file-location-8">9.6.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-8" href="#Output-file-location-8">9.6.2 Output file location</a></li>
+      <li><a name="toc-Message-selection-3" href="#Message-selection-3">9.6.3 Message selection</a></li>
+      <li><a name="toc-Input-file-syntax-7" href="#Input-file-syntax-7">9.6.4 Input file syntax</a></li>
+      <li><a name="toc-Output-details-8" href="#Output-details-8">9.6.5 Output details</a></li>
+      <li><a name="toc-Informative-output-8" href="#Informative-output-8">9.6.6 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgcmp-Program" href="#msgcmp-Invocation">9.7 Invoking the <code>msgcmp</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-9" href="#Input-file-location-9">9.7.1 Input file location</a></li>
+      <li><a name="toc-Operation-modifiers-1" href="#Operation-modifiers-1">9.7.2 Operation modifiers</a></li>
+      <li><a name="toc-Input-file-syntax-8" href="#Input-file-syntax-8">9.7.3 Input file syntax</a></li>
+      <li><a name="toc-Informative-output-9" href="#Informative-output-9">9.7.4 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgattrib-Program" href="#msgattrib-Invocation">9.8 Invoking the <code>msgattrib</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-10" href="#Input-file-location-10">9.8.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-9" href="#Output-file-location-9">9.8.2 Output file location</a></li>
+      <li><a name="toc-Message-selection-4" href="#Message-selection-4">9.8.3 Message selection</a></li>
+      <li><a name="toc-Attribute-manipulation" href="#Attribute-manipulation">9.8.4 Attribute manipulation</a></li>
+      <li><a name="toc-Input-file-syntax-9" href="#Input-file-syntax-9">9.8.5 Input file syntax</a></li>
+      <li><a name="toc-Output-details-9" href="#Output-details-9">9.8.6 Output details</a></li>
+      <li><a name="toc-Informative-output-10" href="#Informative-output-10">9.8.7 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgen-Program" href="#msgen-Invocation">9.9 Invoking the <code>msgen</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-11" href="#Input-file-location-11">9.9.1 Input file location</a></li>
+      <li><a name="toc-Output-file-location-10" href="#Output-file-location-10">9.9.2 Output file location</a></li>
+      <li><a name="toc-Input-file-syntax-10" href="#Input-file-syntax-10">9.9.3 Input file syntax</a></li>
+      <li><a name="toc-Output-details-10" href="#Output-details-10">9.9.4 Output details</a></li>
+      <li><a name="toc-Informative-output-11" href="#Informative-output-11">9.9.5 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgexec-Program" href="#msgexec-Invocation">9.10 Invoking the <code>msgexec</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-12" href="#Input-file-location-12">9.10.1 Input file location</a></li>
+      <li><a name="toc-Input-file-syntax-11" href="#Input-file-syntax-11">9.10.2 Input file syntax</a></li>
+      <li><a name="toc-Informative-output-12" href="#Informative-output-12">9.10.3 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Highlighting-parts-of-PO-files" href="#Colorizing">9.11 Highlighting parts of PO files</a>
+    <ul class="no-bullet">
+      <li><a name="toc-The-_002d_002dcolor-option-1" href="#The-_002d_002dcolor-option">9.11.1 The <code>--color</code> option</a></li>
+      <li><a name="toc-The-environment-variable-TERM" href="#The-TERM-variable">9.11.2 The environment variable <code>TERM</code></a></li>
+      <li><a name="toc-The-_002d_002dstyle-option-1" href="#The-_002d_002dstyle-option">9.11.3 The <code>--style</code> option</a></li>
+      <li><a name="toc-Style-rules-for-PO-files" href="#Style-rules">9.11.4 Style rules for PO files</a></li>
+      <li><a name="toc-Customizing-less-for-viewing-PO-files" href="#Customizing-less">9.11.5 Customizing <code>less</code> for viewing PO files</a></li>
+    </ul></li>
+    <li><a name="toc-Other-tools-for-manipulating-PO-files" href="#Other-tools">9.12 Other tools for manipulating PO files</a></li>
+    <li><a name="toc-Writing-your-own-programs-that-process-PO-files" href="#libgettextpo">9.13 Writing your own programs that process PO files</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Error-Handling-1" href="#Error-Handling">9.13.1 Error Handling</a></li>
+      <li><a name="toc-po_005ffile_005ft-API-1" href="#po_005ffile_005ft-API">9.13.2 po_file_t API</a></li>
+      <li><a name="toc-po_005fmessage_005fiterator_005ft-API-1" href="#po_005fmessage_005fiterator_005ft-API">9.13.3 po_message_iterator_t API</a></li>
+      <li><a name="toc-po_005fmessage_005ft-API-1" href="#po_005fmessage_005ft-API">9.13.4 po_message_t API</a></li>
+      <li><a name="toc-PO-Header-Entry-API-1" href="#PO-Header-Entry-API">9.13.5 PO Header Entry API</a></li>
+      <li><a name="toc-po_005ffilepos_005ft-API-1" href="#po_005ffilepos_005ft-API">9.13.6 po_filepos_t API</a></li>
+      <li><a name="toc-Format-Type-API-1" href="#Format-Type-API">9.13.7 Format Type API</a></li>
+      <li><a name="toc-Checking-API-1" href="#Checking-API">9.13.8 Checking API</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Producing-Binary-MO-Files" href="#Binaries">10 Producing Binary MO Files</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Invoking-the-msgfmt-Program" href="#msgfmt-Invocation">10.1 Invoking the <code>msgfmt</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Input-file-location-13" href="#Input-file-location-13">10.1.1 Input file location</a></li>
+      <li><a name="toc-Operation-mode-2" href="#Operation-mode-2">10.1.2 Operation mode</a></li>
+      <li><a name="toc-Output-file-location-11" href="#Output-file-location-11">10.1.3 Output file location</a></li>
+      <li><a name="toc-Output-file-location-in-Java-mode" href="#Output-file-location-in-Java-mode">10.1.4 Output file location in Java mode</a></li>
+      <li><a name="toc-Output-file-location-in-C_0023-mode" href="#Output-file-location-in-C_0023-mode">10.1.5 Output file location in C# mode</a></li>
+      <li><a name="toc-Output-file-location-in-Tcl-mode" href="#Output-file-location-in-Tcl-mode">10.1.6 Output file location in Tcl mode</a></li>
+      <li><a name="toc-Desktop-Entry-mode-operations" href="#Desktop-Entry-mode-operations">10.1.7 Desktop Entry mode operations</a></li>
+      <li><a name="toc-XML-mode-operations" href="#XML-mode-operations">10.1.8 XML mode operations</a></li>
+      <li><a name="toc-Input-file-syntax-12" href="#Input-file-syntax-12">10.1.9 Input file syntax</a></li>
+      <li><a name="toc-Input-file-interpretation-1" href="#Input-file-interpretation-1">10.1.10 Input file interpretation</a></li>
+      <li><a name="toc-Output-details-11" href="#Output-details-11">10.1.11 Output details</a></li>
+      <li><a name="toc-Informative-output-13" href="#Informative-output-13">10.1.12 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-Invoking-the-msgunfmt-Program" href="#msgunfmt-Invocation">10.2 Invoking the <code>msgunfmt</code> Program</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Operation-mode-3" href="#Operation-mode-3">10.2.1 Operation mode</a></li>
+      <li><a name="toc-Input-file-location-14" href="#Input-file-location-14">10.2.2 Input file location</a></li>
+      <li><a name="toc-Input-file-location-in-Java-mode" href="#Input-file-location-in-Java-mode">10.2.3 Input file location in Java mode</a></li>
+      <li><a name="toc-Input-file-location-in-C_0023-mode" href="#Input-file-location-in-C_0023-mode">10.2.4 Input file location in C# mode</a></li>
+      <li><a name="toc-Input-file-location-in-Tcl-mode" href="#Input-file-location-in-Tcl-mode">10.2.5 Input file location in Tcl mode</a></li>
+      <li><a name="toc-Output-file-location-12" href="#Output-file-location-12">10.2.6 Output file location</a></li>
+      <li><a name="toc-Output-details-12" href="#Output-details-12">10.2.7 Output details</a></li>
+      <li><a name="toc-Informative-output-14" href="#Informative-output-14">10.2.8 Informative output</a></li>
+    </ul></li>
+    <li><a name="toc-The-Format-of-GNU-MO-Files" href="#MO-Files">10.3 The Format of GNU MO Files</a></li>
+  </ul></li>
+  <li><a name="toc-The-Programmer_0027s-View" href="#Programmers">11 The Programmer&rsquo;s View</a>
+  <ul class="no-bullet">
+    <li><a name="toc-About-catgets" href="#catgets">11.1 About <code>catgets</code></a>
+    <ul class="no-bullet">
+      <li><a name="toc-The-Interface" href="#Interface-to-catgets">11.1.1 The Interface</a></li>
+      <li><a name="toc-Problems-with-the-catgets-Interface_003f_0021" href="#Problems-with-catgets">11.1.2 Problems with the <code>catgets</code> Interface?!</a></li>
+    </ul></li>
+    <li><a name="toc-About-gettext" href="#gettext">11.2 About <code>gettext</code></a>
+    <ul class="no-bullet">
+      <li><a name="toc-The-Interface-1" href="#Interface-to-gettext">11.2.1 The Interface</a></li>
+      <li><a name="toc-Solving-Ambiguities" href="#Ambiguities">11.2.2 Solving Ambiguities</a></li>
+      <li><a name="toc-Locating-Message-Catalog-Files" href="#Locating-Catalogs">11.2.3 Locating Message Catalog Files</a></li>
+      <li><a name="toc-How-to-specify-the-output-character-set-gettext-uses" href="#Charset-conversion">11.2.4 How to specify the output character set <code>gettext</code> uses</a></li>
+      <li><a name="toc-Using-contexts-for-solving-ambiguities" href="#Contexts">11.2.5 Using contexts for solving ambiguities</a></li>
+      <li><a name="toc-Additional-functions-for-plural-forms" href="#Plural-forms">11.2.6 Additional functions for plural forms</a></li>
+      <li><a name="toc-Optimization-of-the-_002agettext-functions" href="#Optimized-gettext">11.2.7 Optimization of the *gettext functions</a></li>
+    </ul></li>
+    <li><a name="toc-Comparing-the-Two-Interfaces" href="#Comparison">11.3 Comparing the Two Interfaces</a></li>
+    <li><a name="toc-Using-libintl_002ea-in-own-programs" href="#Using-libintl_002ea">11.4 Using libintl.a in own programs</a></li>
+    <li><a name="toc-Being-a-gettext-grok" href="#gettext-grok">11.5 Being a <code>gettext</code> grok</a></li>
+    <li><a name="toc-Temporary-Notes-for-the-Programmers-Chapter" href="#Temp-Programmers">11.6 Temporary Notes for the Programmers Chapter</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Temporary-_002d-Two-Possible-Implementations" href="#Temp-Implementations">11.6.1 Temporary - Two Possible Implementations</a></li>
+      <li><a name="toc-Temporary-_002d-About-catgets" href="#Temp-catgets">11.6.2 Temporary - About <code>catgets</code></a></li>
+      <li><a name="toc-Temporary-_002d-Why-a-single-implementation" href="#Temp-WSI">11.6.3 Temporary - Why a single implementation</a></li>
+      <li><a name="toc-Temporary-_002d-Notes" href="#Temp-Notes">11.6.4 Temporary - Notes</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-The-Translator_0027s-View" href="#Translators">12 The Translator&rsquo;s View</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Introduction-0" href="#Trans-Intro-0">12.1 Introduction 0</a></li>
+    <li><a name="toc-Introduction-1-1" href="#Trans-Intro-1">12.2 Introduction 1</a></li>
+    <li><a name="toc-Discussions-1" href="#Discussions">12.3 Discussions</a></li>
+    <li><a name="toc-Organization-1" href="#Organization">12.4 Organization</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Central-Coordination-1" href="#Central-Coordination">12.4.1 Central Coordination</a></li>
+      <li><a name="toc-National-Teams-1" href="#National-Teams">12.4.2 National Teams</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Sub_002dCultures-1" href="#Sub_002dCultures">12.4.2.1 Sub-Cultures</a></li>
+        <li><a name="toc-Organizational-Ideas-1" href="#Organizational-Ideas">12.4.2.2 Organizational Ideas</a></li>
+      </ul></li>
+      <li><a name="toc-Mailing-Lists-1" href="#Mailing-Lists">12.4.3 Mailing Lists</a></li>
+    </ul></li>
+    <li><a name="toc-Information-Flow-1" href="#Information-Flow">12.5 Information Flow</a></li>
+    <li><a name="toc-Translating-plural-forms-1" href="#Translating-plural-forms">12.6 Translating plural forms</a></li>
+    <li><a name="toc-Prioritizing-messages_003a-How-to-determine-which-messages-to-translate-first" href="#Prioritizing-messages">12.7 Prioritizing messages: How to determine which messages to translate first</a></li>
+  </ul></li>
+  <li><a name="toc-The-Maintainer_0027s-View" href="#Maintainers">13 The Maintainer&rsquo;s View</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Flat-or-Non_002dFlat-Directory-Structures" href="#Flat-and-Non_002dFlat">13.1 Flat or Non-Flat Directory Structures</a></li>
+    <li><a name="toc-Prerequisite-Works" href="#Prerequisites">13.2 Prerequisite Works</a></li>
+    <li><a name="toc-Invoking-the-gettextize-Program" href="#gettextize-Invocation">13.3 Invoking the <code>gettextize</code> Program</a></li>
+    <li><a name="toc-Files-You-Must-Create-or-Alter" href="#Adjusting-Files">13.4 Files You Must Create or Alter</a>
+    <ul class="no-bullet">
+      <li><a name="toc-POTFILES_002ein-in-po_002f" href="#po_002fPOTFILES_002ein">13.4.1 <samp>POTFILES.in</samp> in <samp>po/</samp></a></li>
+      <li><a name="toc-LINGUAS-in-po_002f" href="#po_002fLINGUAS">13.4.2 <samp>LINGUAS</samp> in <samp>po/</samp></a></li>
+      <li><a name="toc-Makevars-in-po_002f" href="#po_002fMakevars">13.4.3 <samp>Makevars</samp> in <samp>po/</samp></a></li>
+      <li><a name="toc-Extending-Makefile-in-po_002f" href="#po_002fRules_002d_002a">13.4.4 Extending <samp>Makefile</samp> in <samp>po/</samp></a></li>
+      <li><a name="toc-configure_002eac-at-top-level" href="#configure_002eac">13.4.5 <samp>configure.ac</samp> at top level</a></li>
+      <li><a name="toc-config_002eguess_002c-config_002esub-at-top-level" href="#config_002eguess">13.4.6 <samp>config.guess</samp>, <samp>config.sub</samp> at top level</a></li>
+      <li><a name="toc-mkinstalldirs-at-top-level" href="#mkinstalldirs">13.4.7 <samp>mkinstalldirs</samp> at top level</a></li>
+      <li><a name="toc-aclocal_002em4-at-top-level" href="#aclocal">13.4.8 <samp>aclocal.m4</samp> at top level</a></li>
+      <li><a name="toc-config_002eh_002ein-at-top-level" href="#config_002eh_002ein">13.4.9 <samp>config.h.in</samp> at top level</a></li>
+      <li><a name="toc-Makefile_002ein-at-top-level" href="#Makefile">13.4.10 <samp>Makefile.in</samp> at top level</a></li>
+      <li><a name="toc-Makefile_002ein-in-src_002f" href="#src_002fMakefile">13.4.11 <samp>Makefile.in</samp> in <samp>src/</samp></a></li>
+      <li><a name="toc-gettext_002eh-in-lib_002f" href="#lib_002fgettext_002eh">13.4.12 <samp>gettext.h</samp> in <samp>lib/</samp></a></li>
+    </ul></li>
+    <li><a name="toc-Autoconf-macros-for-use-in-configure_002eac" href="#autoconf-macros">13.5 Autoconf macros for use in <samp>configure.ac</samp></a>
+    <ul class="no-bullet">
+      <li><a name="toc-AM_005fGNU_005fGETTEXT-in-gettext_002em4" href="#AM_005fGNU_005fGETTEXT">13.5.1 AM_GNU_GETTEXT in <samp>gettext.m4</samp></a></li>
+      <li><a name="toc-AM_005fGNU_005fGETTEXT_005fVERSION-in-gettext_002em4" href="#AM_005fGNU_005fGETTEXT_005fVERSION">13.5.2 AM_GNU_GETTEXT_VERSION in <samp>gettext.m4</samp></a></li>
+      <li><a name="toc-AM_005fGNU_005fGETTEXT_005fNEED-in-gettext_002em4" href="#AM_005fGNU_005fGETTEXT_005fNEED">13.5.3 AM_GNU_GETTEXT_NEED in <samp>gettext.m4</samp></a></li>
+      <li><a name="toc-AM_005fPO_005fSUBDIRS-in-po_002em4" href="#AM_005fPO_005fSUBDIRS">13.5.4 AM_PO_SUBDIRS in <samp>po.m4</samp></a></li>
+      <li><a name="toc-AM_005fXGETTEXT_005fOPTION-in-po_002em4" href="#AM_005fXGETTEXT_005fOPTION">13.5.5 AM_XGETTEXT_OPTION in <samp>po.m4</samp></a></li>
+      <li><a name="toc-AM_005fICONV-in-iconv_002em4" href="#AM_005fICONV">13.5.6 AM_ICONV in <samp>iconv.m4</samp></a></li>
+    </ul></li>
+    <li><a name="toc-Integrating-with-Version-Control-Systems" href="#Version-Control-Issues">13.6 Integrating with Version Control Systems</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Avoiding-version-mismatch-in-distributed-development" href="#Distributed-Development">13.6.1 Avoiding version mismatch in distributed development</a></li>
+      <li><a name="toc-Files-to-put-under-version-control" href="#Files-under-Version-Control">13.6.2 Files to put under version control</a></li>
+      <li><a name="toc-Put-PO-Files-under-Version-Control" href="#Translations-under-Version-Control">13.6.3 Put PO Files under Version Control</a></li>
+      <li><a name="toc-Invoking-the-autopoint-Program" href="#autopoint-Invocation">13.6.4 Invoking the <code>autopoint</code> Program</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Options" href="#Options">13.6.4.1 Options</a></li>
+        <li><a name="toc-Informative-output-15" href="#Informative-output-15">13.6.4.2 Informative output</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a name="toc-Creating-a-Distribution-Tarball" href="#Release-Management">13.7 Creating a Distribution Tarball</a></li>
+  </ul></li>
+  <li><a name="toc-The-Installer_0027s-and-Distributor_0027s-View" href="#Installers">14 The Installer&rsquo;s and Distributor&rsquo;s View</a></li>
+  <li><a name="toc-Other-Programming-Languages" href="#Programming-Languages">15 Other Programming Languages</a>
+  <ul class="no-bullet">
+    <li><a name="toc-The-Language-Implementor_0027s-View" href="#Language-Implementors">15.1 The Language Implementor&rsquo;s View</a></li>
+    <li><a name="toc-The-Programmer_0027s-View-1" href="#Programmers-for-other-Languages">15.2 The Programmer&rsquo;s View</a></li>
+    <li><a name="toc-The-Translator_0027s-View-1" href="#Translators-for-other-Languages">15.3 The Translator&rsquo;s View</a>
+    <ul class="no-bullet">
+      <li><a name="toc-C-Format-Strings" href="#c_002dformat">15.3.1 C Format Strings</a></li>
+      <li><a name="toc-Objective-C-Format-Strings" href="#objc_002dformat">15.3.2 Objective C Format Strings</a></li>
+      <li><a name="toc-Python-Format-Strings" href="#python_002dformat">15.3.3 Python Format Strings</a></li>
+      <li><a name="toc-Java-Format-Strings" href="#java_002dformat">15.3.4 Java Format Strings</a></li>
+      <li><a name="toc-C_0023-Format-Strings" href="#csharp_002dformat">15.3.5 C# Format Strings</a></li>
+      <li><a name="toc-JavaScript-Format-Strings" href="#javascript_002dformat">15.3.6 JavaScript Format Strings</a></li>
+      <li><a name="toc-Scheme-Format-Strings" href="#scheme_002dformat">15.3.7 Scheme Format Strings</a></li>
+      <li><a name="toc-Lisp-Format-Strings" href="#lisp_002dformat">15.3.8 Lisp Format Strings</a></li>
+      <li><a name="toc-Emacs-Lisp-Format-Strings" href="#elisp_002dformat">15.3.9 Emacs Lisp Format Strings</a></li>
+      <li><a name="toc-librep-Format-Strings" href="#librep_002dformat">15.3.10 librep Format Strings</a></li>
+      <li><a name="toc-Ruby-Format-Strings" href="#ruby_002dformat">15.3.11 Ruby Format Strings</a></li>
+      <li><a name="toc-Shell-Format-Strings" href="#sh_002dformat">15.3.12 Shell Format Strings</a></li>
+      <li><a name="toc-awk-Format-Strings" href="#awk_002dformat">15.3.13 awk Format Strings</a></li>
+      <li><a name="toc-Lua-Format-Strings" href="#lua_002dformat">15.3.14 Lua Format Strings</a></li>
+      <li><a name="toc-Object-Pascal-Format-Strings" href="#object_002dpascal_002dformat">15.3.15 Object Pascal Format Strings</a></li>
+      <li><a name="toc-Smalltalk-Format-Strings" href="#smalltalk_002dformat">15.3.16 Smalltalk Format Strings</a></li>
+      <li><a name="toc-Qt-Format-Strings" href="#qt_002dformat">15.3.17 Qt Format Strings</a></li>
+      <li><a name="toc-Qt-Format-Strings-1" href="#qt_002dplural_002dformat">15.3.18 Qt Format Strings</a></li>
+      <li><a name="toc-KDE-Format-Strings" href="#kde_002dformat">15.3.19 KDE Format Strings</a></li>
+      <li><a name="toc-KUIT-Format-Strings" href="#kde_002dkuit_002dformat">15.3.20 KUIT Format Strings</a></li>
+      <li><a name="toc-Boost-Format-Strings" href="#boost_002dformat">15.3.21 Boost Format Strings</a></li>
+      <li><a name="toc-Tcl-Format-Strings" href="#tcl_002dformat">15.3.22 Tcl Format Strings</a></li>
+      <li><a name="toc-Perl-Format-Strings" href="#perl_002dformat">15.3.23 Perl Format Strings</a></li>
+      <li><a name="toc-PHP-Format-Strings" href="#php_002dformat">15.3.24 PHP Format Strings</a></li>
+      <li><a name="toc-GCC-internal-Format-Strings" href="#gcc_002dinternal_002dformat">15.3.25 GCC internal Format Strings</a></li>
+      <li><a name="toc-GFC-internal-Format-Strings" href="#gfc_002dinternal_002dformat">15.3.26 GFC internal Format Strings</a></li>
+      <li><a name="toc-YCP-Format-Strings" href="#ycp_002dformat">15.3.27 YCP Format Strings</a></li>
+    </ul></li>
+    <li><a name="toc-The-Maintainer_0027s-View-1" href="#Maintainers-for-other-Languages">15.4 The Maintainer&rsquo;s View</a></li>
+    <li><a name="toc-Individual-Programming-Languages" href="#List-of-Programming-Languages">15.5 Individual Programming Languages</a>
+    <ul class="no-bullet">
+      <li><a name="toc-C_002c-C_002b_002b_002c-Objective-C" href="#C">15.5.1 C, C++, Objective C</a></li>
+      <li><a name="toc-Python-1" href="#Python">15.5.2 Python</a></li>
+      <li><a name="toc-Java-1" href="#Java">15.5.3 Java</a></li>
+      <li><a name="toc-C_0023-1" href="#C_0023">15.5.4 C#</a></li>
+      <li><a name="toc-JavaScript-1" href="#JavaScript">15.5.5 JavaScript</a></li>
+      <li><a name="toc-GNU-guile-_002d-Scheme" href="#Scheme">15.5.6 GNU guile - Scheme</a></li>
+      <li><a name="toc-GNU-clisp-_002d-Common-Lisp" href="#Common-Lisp">15.5.7 GNU clisp - Common Lisp</a></li>
+      <li><a name="toc-GNU-clisp-C-sources" href="#clisp-C">15.5.8 GNU clisp C sources</a></li>
+      <li><a name="toc-Emacs-Lisp-1" href="#Emacs-Lisp">15.5.9 Emacs Lisp</a></li>
+      <li><a name="toc-librep-1" href="#librep">15.5.10 librep</a></li>
+      <li><a name="toc-Ruby-1" href="#Ruby">15.5.11 Ruby</a></li>
+      <li><a name="toc-sh-_002d-Shell-Script" href="#sh">15.5.12 sh - Shell Script</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Preparing-Shell-Scripts-for-Internationalization" href="#Preparing-Shell-Scripts">15.5.12.1 Preparing Shell Scripts for Internationalization</a></li>
+        <li><a name="toc-Contents-of-gettext_002esh" href="#gettext_002esh">15.5.12.2 Contents of <code>gettext.sh</code></a></li>
+        <li><a name="toc-Invoking-the-gettext-program" href="#gettext-Invocation">15.5.12.3 Invoking the <code>gettext</code> program</a></li>
+        <li><a name="toc-Invoking-the-ngettext-program" href="#ngettext-Invocation">15.5.12.4 Invoking the <code>ngettext</code> program</a></li>
+        <li><a name="toc-Invoking-the-envsubst-program" href="#envsubst-Invocation">15.5.12.5 Invoking the <code>envsubst</code> program</a></li>
+        <li><a name="toc-Invoking-the-eval_005fgettext-function" href="#eval_005fgettext-Invocation">15.5.12.6 Invoking the <code>eval_gettext</code> function</a></li>
+        <li><a name="toc-Invoking-the-eval_005fngettext-function" href="#eval_005fngettext-Invocation">15.5.12.7 Invoking the <code>eval_ngettext</code> function</a></li>
+        <li><a name="toc-Invoking-the-eval_005fpgettext-function" href="#eval_005fpgettext-Invocation">15.5.12.8 Invoking the <code>eval_pgettext</code> function</a></li>
+        <li><a name="toc-Invoking-the-eval_005fnpgettext-function" href="#eval_005fnpgettext-Invocation">15.5.12.9 Invoking the <code>eval_npgettext</code> function</a></li>
+      </ul></li>
+      <li><a name="toc-bash-_002d-Bourne_002dAgain-Shell-Script" href="#bash">15.5.13 bash - Bourne-Again Shell Script</a></li>
+      <li><a name="toc-GNU-awk" href="#gawk">15.5.14 GNU awk</a></li>
+      <li><a name="toc-Lua-1" href="#Lua">15.5.15 Lua</a></li>
+      <li><a name="toc-Pascal-_002d-Free-Pascal-Compiler" href="#Pascal">15.5.16 Pascal - Free Pascal Compiler</a></li>
+      <li><a name="toc-GNU-Smalltalk" href="#Smalltalk">15.5.17 GNU Smalltalk</a></li>
+      <li><a name="toc-Vala-1" href="#Vala">15.5.18 Vala</a></li>
+      <li><a name="toc-wxWidgets-library" href="#wxWidgets">15.5.19 wxWidgets library</a></li>
+      <li><a name="toc-Tcl-_002d-Tk_0027s-scripting-language" href="#Tcl">15.5.20 Tcl - Tk&rsquo;s scripting language</a></li>
+      <li><a name="toc-Perl-1" href="#Perl">15.5.21 Perl</a>
+      <ul class="no-bullet">
+        <li><a name="toc-General-Problems-Parsing-Perl-Code" href="#General-Problems">15.5.21.1 General Problems Parsing Perl Code</a></li>
+        <li><a name="toc-Which-keywords-will-xgettext-look-for_003f" href="#Default-Keywords">15.5.21.2 Which keywords will xgettext look for?</a></li>
+        <li><a name="toc-How-to-Extract-Hash-Keys" href="#Special-Keywords">15.5.21.3 How to Extract Hash Keys</a></li>
+        <li><a name="toc-What-are-Strings-And-Quote_002dlike-Expressions_003f" href="#Quote_002dlike-Expressions">15.5.21.4 What are Strings And Quote-like Expressions?</a></li>
+        <li><a name="toc-Invalid-Uses-Of-String-Interpolation" href="#Interpolation-I">15.5.21.5 Invalid Uses Of String Interpolation</a></li>
+        <li><a name="toc-Valid-Uses-Of-String-Interpolation" href="#Interpolation-II">15.5.21.6 Valid Uses Of String Interpolation</a></li>
+        <li><a name="toc-When-To-Use-Parentheses" href="#Parentheses">15.5.21.7 When To Use Parentheses</a></li>
+        <li><a name="toc-How-To-Grok-with-Long-Lines" href="#Long-Lines">15.5.21.8 How To Grok with Long Lines</a></li>
+        <li><a name="toc-Bugs_002c-Pitfalls_002c-And-Things-That-Do-Not-Work" href="#Perl-Pitfalls">15.5.21.9 Bugs, Pitfalls, And Things That Do Not Work</a></li>
+      </ul></li>
+      <li><a name="toc-PHP-Hypertext-Preprocessor" href="#PHP">15.5.22 PHP Hypertext Preprocessor</a></li>
+      <li><a name="toc-Pike-1" href="#Pike">15.5.23 Pike</a></li>
+      <li><a name="toc-GNU-Compiler-Collection-sources" href="#GCC_002dsource">15.5.24 GNU Compiler Collection sources</a></li>
+      <li><a name="toc-YCP-_002d-YaST2-scripting-language" href="#YCP">15.5.25 YCP - YaST2 scripting language</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Other-Data-Formats" href="#Data-Formats">16 Other Data Formats</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Internationalizable-Data-Formats" href="#Internationalizable-Data">16.1 Internationalizable Data Formats</a>
+    <ul class="no-bullet">
+      <li><a name="toc-POT-_002d-Portable-Object-Template" href="#POT">16.1.1 POT - Portable Object Template</a></li>
+      <li><a name="toc-Resource-String-Table" href="#RST">16.1.2 Resource String Table</a></li>
+      <li><a name="toc-Glade-_002d-GNOME-user-interface-description" href="#Glade">16.1.3 Glade - GNOME user interface description</a></li>
+      <li><a name="toc-GSettings-_002d-GNOME-user-configuration-schema" href="#GSettings">16.1.4 GSettings - GNOME user configuration schema</a></li>
+      <li><a name="toc-AppData-_002d-freedesktop_002eorg-application-description" href="#AppData">16.1.5 AppData - freedesktop.org application description</a></li>
+      <li><a name="toc-Preparing-Rules-for-XML-Internationalization" href="#Preparing-ITS-Rules">16.1.6 Preparing Rules for XML Internationalization</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Two-Use_002dcases-of-Translated-Strings-in-XML" href="#Two-Use_002dcases-of-Translated-Strings-in-XML">16.1.6.1 Two Use-cases of Translated Strings in XML</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a name="toc-Localized-Data-Formats" href="#Localized-Data">16.2 Localized Data Formats</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Editable-Message-Catalogs-1" href="#Editable-Message-Catalogs">16.2.1 Editable Message Catalogs</a>
+      <ul class="no-bullet">
+        <li><a name="toc-PO-_002d-Portable-Object" href="#PO">16.2.1.1 PO - Portable Object</a></li>
+        <li><a name="toc-Java-_002eproperties-1" href="#Java-_002eproperties">16.2.1.2 Java .properties</a></li>
+        <li><a name="toc-NeXTstep_002fGNUstep-_002estrings" href="#GNUstep-_002estrings">16.2.1.3 NeXTstep/GNUstep .strings</a></li>
+      </ul></li>
+      <li><a name="toc-Compiled-Message-Catalogs-1" href="#Compiled-Message-Catalogs">16.2.2 Compiled Message Catalogs</a>
+      <ul class="no-bullet">
+        <li><a name="toc-MO-_002d-Machine-Object" href="#MO">16.2.2.1 MO - Machine Object</a></li>
+        <li><a name="toc-Java-ResourceBundle-1" href="#Java-ResourceBundle">16.2.2.2 Java ResourceBundle</a></li>
+        <li><a name="toc-C_0023-Satellite-Assembly-1" href="#C_0023-Satellite-Assembly">16.2.2.3 C# Satellite Assembly</a></li>
+        <li><a name="toc-C_0023-Resource-1" href="#C_0023-Resource">16.2.2.4 C# Resource</a></li>
+        <li><a name="toc-Tcl-message-catalog-1" href="#Tcl-message-catalog">16.2.2.5 Tcl message catalog</a></li>
+        <li><a name="toc-Qt-message-catalog-1" href="#Qt-message-catalog">16.2.2.6 Qt message catalog</a></li>
+      </ul></li>
+      <li><a name="toc-Desktop-Entry-files" href="#Desktop-Entry">16.2.3 Desktop Entry files</a>
+      <ul class="no-bullet">
+        <li><a name="toc-How-to-handle-icons-in-Desktop-Entry-files" href="#Icons">16.2.3.1 How to handle icons in Desktop Entry files</a></li>
+      </ul></li>
+      <li><a name="toc-XML-files" href="#XML">16.2.4 XML files</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Concluding-Remarks" href="#Conclusion">17 Concluding Remarks</a>
+  <ul class="no-bullet">
+    <li><a name="toc-History-of-GNU-gettext" href="#History">17.1 History of GNU <code>gettext</code></a></li>
+    <li><a name="toc-Notes-on-the-Free-Translation-Project" href="#The-original-ABOUT_002dNLS">17.2 Notes on the Free Translation Project</a>
+    <ul class="no-bullet">
+      <li><a name="toc-INSTALL-Matters-1" href="#INSTALL-Matters">17.2.1 INSTALL Matters</a></li>
+      <li><a name="toc-Using-This-Package-1" href="#Using-This-Package">17.2.2 Using This Package</a></li>
+      <li><a name="toc-Translating-Teams-1" href="#Translating-Teams">17.2.3 Translating Teams</a></li>
+      <li><a name="toc-Available-Packages-1" href="#Available-Packages">17.2.4 Available Packages</a></li>
+      <li><a name="toc-Using-gettext-in-new-packages" href="#Using-gettext-in-own-code">17.2.5 Using <code>gettext</code> in new packages</a></li>
+    </ul></li>
+    <li><a name="toc-Related-Readings" href="#References">17.3 Related Readings</a></li>
+  </ul></li>
+  <li><a name="toc-Language-Codes-1" href="#Language-Codes">Appendix A Language Codes</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Usual-Language-Codes-1" href="#Usual-Language-Codes">A.1 Usual Language Codes</a></li>
+    <li><a name="toc-Rare-Language-Codes-1" href="#Rare-Language-Codes">A.2 Rare Language Codes</a></li>
+  </ul></li>
+  <li><a name="toc-Country-Codes-1" href="#Country-Codes">Appendix B Country Codes</a></li>
+  <li><a name="toc-Licenses-1" href="#Licenses">Appendix C Licenses</a>
+  <ul class="no-bullet">
+    <li><a name="toc-GNU-GENERAL-PUBLIC-LICENSE" href="#GNU-GPL">C.1 GNU GENERAL PUBLIC LICENSE</a></li>
+    <li><a name="toc-GNU-LESSER-GENERAL-PUBLIC-LICENSE" href="#GNU-LGPL">C.2 GNU LESSER GENERAL PUBLIC LICENSE</a></li>
+    <li><a name="toc-GNU-Free-Documentation-License" href="#GNU-FDL">C.3 GNU Free Documentation License</a></li>
+  </ul></li>
+  <li><a name="toc-Program-Index-1" href="#Program-Index">Program Index</a></li>
+  <li><a name="toc-Option-Index-1" href="#Option-Index">Option Index</a></li>
+  <li><a name="toc-Variable-Index-1" href="#Variable-Index">Variable Index</a></li>
+  <li><a name="toc-PO-Mode-Index-1" href="#PO-Mode-Index">PO Mode Index</a></li>
+  <li><a name="toc-Autoconf-Macro-Index-1" href="#Autoconf-Macro-Index">Autoconf Macro Index</a></li>
+  <li><a name="toc-General-Index" href="#Index">General Index</a></li>
+</ul>
+</div>
+
+
+<a name="Top"></a>
+<div class="header">
+<p>
+Next: <a href="#Introduction" accesskey="n" rel="next">Introduction</a>, Up: <a href="/manual" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Program-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="GNU-gettext-utilities"></a>
+<h1 class="top">GNU <code>gettext</code> utilities</h1>
+
+<p>This manual documents the GNU gettext tools and the GNU libintl library,
+version 0.21.
+</p>
+<table class="menu" border="0" ce
